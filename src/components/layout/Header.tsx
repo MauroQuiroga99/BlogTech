@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import React, { useState, useRef, useEffect } from "react";
 
 const Header = () => {
@@ -32,7 +33,7 @@ const Header = () => {
 
   return (
     <div>
-      <nav className="h-[90px] p-5 flex justify-center bg-white">
+      <div className="fixed z-10  top-0 left-0 w-full h-[90px] p-5 flex justify-center bg-white">
         <div className="flex w-[1000px] justify-between items-center">
           <h1 className="text-[26px] font-bold">BLOGTECH</h1>
           <div className="hidden lg:flex">
@@ -71,8 +72,8 @@ const Header = () => {
               </li>
               <li>
                 <a
+                  href="/auth/login"
                   className="text-base px-7 py-3 tracking-wider leading-4 font-bold uppercase text-black not-italic border-2 border-black hover:bg-blue-800 hover:text-white"
-                  href=""
                 >
                   Sign In
                 </a>
@@ -128,8 +129,8 @@ const Header = () => {
                 </li>
                 <li>
                   <a
+                    href="/auth/login"
                     className="text-base px-7 py-3 tracking-wider leading-4 font-bold uppercase text-black not-italic border-2 border-black hover:bg-blue-800 hover:text-white"
-                    href=""
                   >
                     Sign In
                   </a>
@@ -138,7 +139,7 @@ const Header = () => {
             )}
           </div>
         </div>
-      </nav>
+      </div>
     </div>
   );
 };
