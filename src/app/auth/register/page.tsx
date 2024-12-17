@@ -1,5 +1,8 @@
 "use client";
 import Error from "@/components/validation/Error";
+import { RegisterForm } from "@/types";
+import api from "@/utils/api";
+import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 
 const Register = () => {
@@ -8,10 +11,20 @@ const Register = () => {
     handleSubmit,
     formState: { errors },
     watch,
-  } = useForm();
+  } = useForm<RegisterForm>();
   const password = watch("password");
-  const createUser = (data) => {
-    console.log(data);
+
+  const router = useRouter();
+
+  const createUser = async (data: RegisterForm) => {
+    const response = await api.post("http://localhost:3000/api/register", data);
+    if (response.data === 200) {
+      console.log(response.data);
+      router.push(""); //la ruta que me lleve al login
+    } else {
+      console.log("error en registro");
+      router.push("/auth/register");
+    }
   };
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-40 sm:px-6 lg:px-8 px-6 ">
