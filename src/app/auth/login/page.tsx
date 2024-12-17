@@ -1,16 +1,40 @@
 "use client";
 import Error from "@/components/validation/Error";
+import { setAuth } from "@/store/slices/authSlice";
+import { LoginForm } from "@/types";
+import api from "@/utils/api";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 
 const Login = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
-  const loginUser = (data) => {
-    console.log(data);
+  } = useForm<LoginForm>();
+  const dispatch = useDispatch();
+
+  const loginUser = async (data: LoginForm) => {
+    const response = await api.post("http://localhost:3000/api/login", data, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.data.user && response.data.token) {
+      console.log("Usuario autenticado", response.data.user);
+      dispatch(
+        setAuth({
+          user: response.data.user,
+          token: response.data.token,
+        })
+      );
+    } else {
+      console.log("Credenciales incorrectas");
+    }
   };
+  console.log(loginUser);
+
   return (
     <div>
       <div className="min-h-screen h-80 bg-gray-50 flex flex-col justify-center py-40 sm:px-6 lg:px-8 px-6">
