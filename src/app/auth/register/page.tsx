@@ -2,7 +2,7 @@
 import Error from "@/components/validation/Error";
 import { RegisterForm } from "@/types";
 import api from "@/utils/api";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 const Register = () => {

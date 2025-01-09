@@ -4,7 +4,7 @@ export type UserType = {
 };
 
 export type LoginForm = {
-  email: string;
+  email_or_username: string;
   password: string;
 };
 

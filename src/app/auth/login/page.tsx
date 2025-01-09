@@ -15,25 +15,27 @@ const Login = () => {
   const dispatch = useDispatch();
 
   const loginUser = async (data: LoginForm) => {
-    const response = await api.post("http://localhost:3000/api/login", data, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    console.log(data);
 
-    if (response.data.user && response.data.token) {
-      console.log("Usuario autenticado", response.data.user);
-      dispatch(
-        setAuth({
-          user: response.data.user,
-          token: response.data.token,
-        })
-      );
-    } else {
-      console.log("Credenciales incorrectas");
+    try {
+      const response = await api.post("/auth/login", data, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.data.user) {
+        console.log("Usuario autenticado", response.data.user);
+        dispatch(
+          setAuth({
+            user: response.data.user,
+          })
+        );
+      }
+    } catch (error) {
+      console.log(error.response.data.message);
     }
   };
-  console.log(loginUser);
 
   return (
     <div>
@@ -61,23 +63,25 @@ const Login = () => {
               <form onSubmit={handleSubmit(loginUser)} noValidate action="">
                 <div>
                   <label
-                    htmlFor="email"
+                    htmlFor="email_or_username"
                     className="block text-sm font-medium leading-5 text-gray-800"
                   >
                     Email address or User Name
                   </label>
                   <div className="mt-1 relative rounded-md shadow-sm">
                     <input
-                      id="email"
+                      id="email_or_username"
                       type="text"
                       placeholder="user@example.com"
                       className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-800 transition duration-150 ease-in-out sm:text-sm sm:leading-5"
-                      {...register("email", {
+                      {...register("email_or_username", {
                         required: "El campo está vacio",
                       })}
                     />
-                    {errors.email && (
-                      <Error>{errors.email?.message as string}</Error>
+                    {errors.email_or_username && (
+                      <Error>
+                        {errors.email_or_username?.message as string}
+                      </Error>
                     )}
                   </div>
                 </div>
