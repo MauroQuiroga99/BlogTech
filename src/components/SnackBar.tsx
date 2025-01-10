@@ -13,7 +13,7 @@ const Snackbar = ({ message, onClose }: SnackbarProps) => {
         className="ml-4 text-red-500 hover:text-red-700 focus:outline-none"
         onClick={onClose}
       >
-        Close
+        ✖️
       </button>
     </div>
   );

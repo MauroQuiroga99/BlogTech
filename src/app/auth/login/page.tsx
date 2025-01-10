@@ -39,7 +39,6 @@ const Login = () => {
       });
 
       if (response.data.user) {
-        console.log("Usuario autenticado", response.data.user);
         dispatch(
           setAuth({
             user: response.data.user,
