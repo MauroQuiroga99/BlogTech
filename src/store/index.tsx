@@ -1,8 +1,10 @@
 import authSlice from "@/store/slices/authSlice";
+import snackBarSlice from "@/store/slices/snackBarSlice";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 
 const rootReducer = combineReducers({
   auth: authSlice,
+  toast: snackBarSlice,
 });
 
 const store = configureStore({

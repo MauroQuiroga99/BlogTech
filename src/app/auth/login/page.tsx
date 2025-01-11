@@ -1,10 +1,9 @@
 "use client";
-import Snackbar from "@/components/SnackBar";
 import Error from "@/components/validation/Error";
 import { setAuth } from "@/store/slices/authSlice";
+import { setSnackBar } from "@/store/slices/snackBarSlice";
 import { LoginForm } from "@/types";
 import api from "@/utils/api";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 
@@ -14,19 +13,8 @@ const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<LoginForm>();
+
   const dispatch = useDispatch();
-
-  const [snackbar, setSnackbar] = useState({
-    message: "",
-    isOpen: false,
-  });
-
-  const showSnackbar = (message: string) => {
-    setSnackbar({ message, isOpen: true });
-    setTimeout(() => {
-      setSnackbar({ message: "", isOpen: false });
-    }, 3000);
-  };
 
   const loginUser = async (data: LoginForm) => {
     console.log(data);
@@ -44,23 +32,20 @@ const Login = () => {
             user: response.data.user,
           })
         );
-        showSnackbar("Logged in successfully!");
+
+        dispatch(
+          setSnackBar({ message: "Logged in successfully!", isOpen: true })
+        );
       }
     } catch (error) {
       const errorMessage =
         error.response?.data?.message || "An unexpected error occurred";
-      showSnackbar(errorMessage);
+      dispatch(setSnackBar({ message: errorMessage, isOpen: true }));
     }
   };
 
   return (
     <div>
-      {snackbar.isOpen && (
-        <Snackbar
-          message={snackbar.message}
-          onClose={() => setSnackbar({ message: "", isOpen: false })}
-        />
-      )}
       <div className="min-h-screen h-80 bg-gray-50 flex flex-col justify-center py-40 sm:px-6 lg:px-8 px-6">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <div>

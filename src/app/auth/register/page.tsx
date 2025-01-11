@@ -1,11 +1,11 @@
 "use client";
-import Snackbar from "@/components/SnackBar";
 import Error from "@/components/validation/Error";
+import { setSnackBar } from "@/store/slices/snackBarSlice";
 import { RegisterForm } from "@/types";
 import api from "@/utils/api";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 
 const Register = () => {
   const {
@@ -16,19 +16,9 @@ const Register = () => {
   } = useForm<RegisterForm>();
   const password = watch("password");
 
+  const dispatch = useDispatch();
+
   const router = useRouter();
-
-  const [snackbar, setSnackbar] = useState({
-    message: "",
-    isOpen: false,
-  });
-
-  const showSnackbar = (message: string) => {
-    setSnackbar({ message, isOpen: true });
-    setTimeout(() => {
-      setSnackbar({ message: "", isOpen: false });
-    }, 3000);
-  };
 
   const createUser = async (data: RegisterForm) => {
     try {
@@ -39,23 +29,22 @@ const Register = () => {
       });
       if (response.status === 201) {
         router.push("/auth/login");
-        showSnackbar("¡Usuario registrado exitosamente!");
+        dispatch(
+          setSnackBar({
+            message: "¡Usuario registrado exitosamente!",
+            isOpen: true,
+          })
+        );
       }
     } catch (error) {
       const errorMessage =
-        error.response.data.message || "An unexpected error occurred";
-      console.log(error.response.data.message);
-      showSnackbar(errorMessage);
+        error.response?.data?.message || "An unexpected error occurred";
+      console.log(error.response?.data?.message);
+      dispatch(setSnackBar({ message: errorMessage, isOpen: true }));
     }
   };
   return (
     <div>
-      {snackbar.isOpen && (
-        <Snackbar
-          message={snackbar.message}
-          onClose={() => setSnackbar({ message: "", isOpen: false })}
-        />
-      )}
       <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-40 sm:px-6 lg:px-8 px-6 ">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <div>
