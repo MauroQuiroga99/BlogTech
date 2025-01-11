@@ -1,11 +1,13 @@
 "use client";
 import Error from "@/components/validation/Error";
+import { getIsLoggedIn } from "@/store/selector/authSelector";
 import { setSnackBar } from "@/store/slices/snackBarSlice";
 import { RegisterForm } from "@/types";
 import api from "@/utils/api";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const Register = () => {
   const {
@@ -15,10 +17,15 @@ const Register = () => {
     watch,
   } = useForm<RegisterForm>();
   const password = watch("password");
-
   const dispatch = useDispatch();
-
   const router = useRouter();
+  const isLoggedIn = useSelector(getIsLoggedIn);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      router.push("/");
+    }
+  }, [isLoggedIn]);
 
   const createUser = async (data: RegisterForm) => {
     try {
@@ -38,8 +45,9 @@ const Register = () => {
       }
     } catch (error) {
       const errorMessage =
+        // @ts-expect-error fix for now
         error.response?.data?.message || "An unexpected error occurred";
-      console.log(error.response?.data?.message);
+
       dispatch(setSnackBar({ message: errorMessage, isOpen: true }));
     }
   };

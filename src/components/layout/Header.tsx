@@ -71,12 +71,12 @@ const Header = () => {
                 </a>
               </li>
               <li>
-                <a
+                <Link
                   href="/auth/login"
                   className="text-base px-7 py-3 tracking-wider leading-4 font-bold uppercase text-black not-italic border-2 border-black hover:bg-blue-800 hover:text-white"
                 >
                   Sign In
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -128,12 +128,12 @@ const Header = () => {
                   </a>
                 </li>
                 <li>
-                  <a
-                    href="/auth/login"
+                  <Link
+                    href={"/auth/login"}
                     className="text-base px-7 py-3 tracking-wider leading-4 font-bold uppercase text-black not-italic border-2 border-black hover:bg-blue-800 hover:text-white"
                   >
                     Sign In
-                  </a>
+                  </Link>
                 </li>
               </ul>
             )}
