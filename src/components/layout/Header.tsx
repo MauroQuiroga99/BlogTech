@@ -2,6 +2,7 @@
 import { getIsLoggedIn } from "@/store/selector/authSelector";
 import { setLogout } from "@/store/slices/authSlice";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useState, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -11,6 +12,7 @@ const Header = () => {
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const isLoggedIn = useSelector(getIsLoggedIn);
   const dispacth = useDispatch();
+  const router = useRouter();
 
   const toggleMenu = () => {
     setMenuOpen((prev) => !prev);
@@ -18,6 +20,7 @@ const Header = () => {
 
   const handleLogout = () => {
     dispacth(setLogout());
+    router.push("/auth/login");
   };
 
   useEffect(() => {
@@ -80,20 +83,19 @@ const Header = () => {
               </li>
               <li>
                 {isLoggedIn ? (
-                  <Link
-                    href={"/auth/login"}
+                  <button
                     onClick={handleLogout}
                     className="text-base px-7 py-3 tracking-wider leading-4 font-bold uppercase text-black not-italic border-2 border-black hover:bg-blue-800 hover:text-white"
                   >
                     log out
-                  </Link>
+                  </button>
                 ) : (
                   <Link
                     href="/auth/login"
                     className="text-base px-7 py-3 tracking-wider leading-4 font-bold uppercase text-black not-italic border-2 border-black hover:bg-blue-800 hover:text-white"
                   >
                     {" "}
-                    Sing In
+                    Sign In
                   </Link>
                 )}
               </li>
@@ -149,13 +151,12 @@ const Header = () => {
                 {
                   <li>
                     {isLoggedIn ? (
-                      <Link
-                        href={"/auth/login"}
+                      <button
                         onClick={handleLogout}
                         className="text-sm px-7 py-3 tracking-wider leading-4 font-bold uppercase text-black not-italic border-2 border-black hover:bg-blue-800 hover:text-white"
                       >
                         Log Out
-                      </Link>
+                      </button>
                     ) : (
                       <Link
                         href={"/auth/login"}
