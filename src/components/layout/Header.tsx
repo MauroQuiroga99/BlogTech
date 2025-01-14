@@ -1,15 +1,23 @@
 "use client";
+import { getIsLoggedIn } from "@/store/selector/authSelector";
+import { setLogout } from "@/store/slices/authSlice";
 import Link from "next/link";
 import React, { useState, useRef, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-
   const menuRef = useRef<HTMLUListElement | null>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
+  const isLoggedIn = useSelector(getIsLoggedIn);
+  const dispacth = useDispatch();
 
   const toggleMenu = () => {
     setMenuOpen((prev) => !prev);
+  };
+
+  const handleLogout = () => {
+    dispacth(setLogout());
   };
 
   useEffect(() => {
@@ -71,12 +79,23 @@ const Header = () => {
                 </a>
               </li>
               <li>
-                <Link
-                  href="/auth/login"
-                  className="text-base px-7 py-3 tracking-wider leading-4 font-bold uppercase text-black not-italic border-2 border-black hover:bg-blue-800 hover:text-white"
-                >
-                  Sign In
-                </Link>
+                {isLoggedIn ? (
+                  <Link
+                    href={"/auth/login"}
+                    onClick={handleLogout}
+                    className="text-base px-7 py-3 tracking-wider leading-4 font-bold uppercase text-black not-italic border-2 border-black hover:bg-blue-800 hover:text-white"
+                  >
+                    log out
+                  </Link>
+                ) : (
+                  <Link
+                    href="/auth/login"
+                    className="text-base px-7 py-3 tracking-wider leading-4 font-bold uppercase text-black not-italic border-2 border-black hover:bg-blue-800 hover:text-white"
+                  >
+                    {" "}
+                    Sing In
+                  </Link>
+                )}
               </li>
             </ul>
           </div>
@@ -127,14 +146,26 @@ const Header = () => {
                     Blog Feed
                   </a>
                 </li>
-                <li>
-                  <Link
-                    href={"/auth/login"}
-                    className="text-base px-7 py-3 tracking-wider leading-4 font-bold uppercase text-black not-italic border-2 border-black hover:bg-blue-800 hover:text-white"
-                  >
-                    Sign In
-                  </Link>
-                </li>
+                {
+                  <li>
+                    {isLoggedIn ? (
+                      <Link
+                        href={"/auth/login"}
+                        onClick={handleLogout}
+                        className="text-sm px-7 py-3 tracking-wider leading-4 font-bold uppercase text-black not-italic border-2 border-black hover:bg-blue-800 hover:text-white"
+                      >
+                        Log Out
+                      </Link>
+                    ) : (
+                      <Link
+                        href={"/auth/login"}
+                        className="text-sm px-7 py-3 tracking-wider leading-4 font-bold uppercase text-black not-italic border-2 border-black hover:bg-blue-800 hover:text-white"
+                      >
+                        Sign In
+                      </Link>
+                    )}
+                  </li>
+                }
               </ul>
             )}
           </div>
