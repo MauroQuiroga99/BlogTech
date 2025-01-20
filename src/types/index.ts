@@ -17,3 +17,9 @@ export type RegisterForm = {
   password: string;
   password_confirmation: string;
 };
+
+export type PostForm = {
+  title: string;
+  content: string;
+  status: string;
+};

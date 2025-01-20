@@ -7,3 +7,7 @@ export const getIsLoggedIn = (state: RootState) => {
 export const getUser = (state: RootState) => {
   return state.auth.user;
 };
+
+export const getToken = (state: RootState) => {
+  return state.auth.token;
+};
