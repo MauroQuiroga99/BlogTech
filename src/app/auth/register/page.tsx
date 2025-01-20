@@ -4,6 +4,7 @@ import { getIsLoggedIn } from "@/store/selector/authSelector";
 import { setSnackBar } from "@/store/slices/snackBarSlice";
 import { RegisterForm } from "@/types";
 import api from "@/utils/api";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -53,7 +54,7 @@ const Register = () => {
   };
   return (
     <div>
-      <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-40 sm:px-6 lg:px-8 px-6 ">
+      <div className="min-h-screen bg-gray-100 flex flex-col justify-center py-40 sm:px-6 lg:px-8 px-6 ">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <div>
             <h1 className="mx-auto text-center h-10 w-auto text-xl font-bold">
@@ -64,12 +65,12 @@ const Register = () => {
             </h2>
             <p className="mt-2 text-center text-sm leading-5 text-gray-800  max-w">
               Or{" "}
-              <a
+              <Link
                 href="/auth/login"
                 className="font-medium text-gray-800 hover:text-blue-800 focus:outline-none focus:underline transition ease-in-out duration-150"
               >
                 login to your account
-              </a>
+              </Link>
             </p>
           </div>
           <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">

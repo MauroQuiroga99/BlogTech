@@ -1,5 +1,5 @@
 "use client";
-import { getIsLoggedIn } from "@/store/selector/authSelector";
+import { getIsLoggedIn, getUser } from "@/store/selector/authSelector";
 import { setLogout } from "@/store/slices/authSlice";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -11,6 +11,7 @@ const Header = () => {
   const menuRef = useRef<HTMLUListElement | null>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const isLoggedIn = useSelector(getIsLoggedIn);
+  const user = useSelector(getUser);
   const dispacth = useDispatch();
   const router = useRouter();
 
@@ -41,6 +42,8 @@ const Header = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  console.log(user);
 
   return (
     <div>
@@ -83,18 +86,22 @@ const Header = () => {
               </li>
               <li>
                 {isLoggedIn ? (
-                  <button
-                    onClick={handleLogout}
-                    className="text-base px-7 py-3 tracking-wider leading-4 font-bold uppercase text-black not-italic border-2 border-black hover:bg-blue-800 hover:text-white"
-                  >
-                    log out
-                  </button>
+                  <>
+                    <span className="text-base uppercase  tracking-wider leading-4 font-semibold text-gray-800 not-italic m-4">
+                      {user?.name}
+                    </span>
+                    <button
+                      onClick={handleLogout}
+                      className="text-sm px-7 py-3 tracking-wider leading-4 font-bold uppercase text-black not-italic border-2 border-black hover:bg-blue-800 hover:text-white"
+                    >
+                      Log Out
+                    </button>
+                  </>
                 ) : (
                   <Link
                     href="/auth/login"
-                    className="text-base px-7 py-3 tracking-wider leading-4 font-bold uppercase text-black not-italic border-2 border-black hover:bg-blue-800 hover:text-white"
+                    className="text-sm px-7 py-3 tracking-wider leading-4 font-bold uppercase text-black not-italic border-2 border-black hover:bg-blue-800 hover:text-white"
                   >
-                    {" "}
                     Sign In
                   </Link>
                 )}
@@ -151,12 +158,17 @@ const Header = () => {
                 {
                   <li>
                     {isLoggedIn ? (
-                      <button
-                        onClick={handleLogout}
-                        className="text-sm px-7 py-3 tracking-wider leading-4 font-bold uppercase text-black not-italic border-2 border-black hover:bg-blue-800 hover:text-white"
-                      >
-                        Log Out
-                      </button>
+                      <>
+                        <span className="text-xs uppercase tracking-wider leading-4 font-semibold text-gray-800 not-italic">
+                          {user?.name}
+                        </span>
+                        <button
+                          onClick={handleLogout}
+                          className="text-sm mt-3 px-7 py-3 tracking-wider leading-4 font-bold uppercase text-black not-italic border-2 border-black hover:bg-blue-800 hover:text-white"
+                        >
+                          Log Out
+                        </button>
+                      </>
                     ) : (
                       <Link
                         href={"/auth/login"}

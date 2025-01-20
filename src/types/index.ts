@@ -1,6 +1,8 @@
 export type UserType = {
   email: string;
-  userName: string;
+  username: string;
+  id: string;
+  name: string;
 };
 
 export type LoginForm = {
