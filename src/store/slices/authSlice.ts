@@ -9,9 +9,9 @@ type AuthState = {
 };
 
 const initialState: AuthState = {
-  user: null,
-  token: "",
-  isLoggedIn: false,
+  user: JSON.parse(localStorage.getItem("user") || "null"),
+  token: localStorage.getItem("token") || "",
+  isLoggedIn: !!localStorage.getItem("token"),
 };
 
 const authSlice = createSlice({
@@ -27,6 +27,8 @@ const authSlice = createSlice({
       state.user = null;
       state.token = "";
       state.isLoggedIn = false;
+      localStorage.removeItem("user");
+      localStorage.removeItem("token");
     },
   },
 });
