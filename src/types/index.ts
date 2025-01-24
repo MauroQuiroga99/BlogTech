@@ -23,3 +23,11 @@ export type PostForm = {
   content: string;
   status: string;
 };
+
+export type PostType = {
+  title: string;
+  content: string;
+  status: string;
+  id: string;
+  user: UserType;
+};

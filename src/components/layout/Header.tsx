@@ -43,8 +43,6 @@ const Header = () => {
     };
   }, []);
 
-  console.log(user);
-
   return (
     <div>
       <div className="fixed z-10  top-0 left-0 w-full h-[90px] p-5 flex justify-center bg-white">

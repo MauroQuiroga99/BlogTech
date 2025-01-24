@@ -28,8 +28,6 @@ const Login = () => {
   }, [isLoggedIn]);
 
   const loginUser = async (data: LoginForm) => {
-    console.log(data);
-
     try {
       const response = await api.post("/auth/login", data, {
         headers: {

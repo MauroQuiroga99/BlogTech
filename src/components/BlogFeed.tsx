@@ -1,21 +1,43 @@
 "use client";
 import { getIsLoggedIn } from "@/store/selector/authSelector";
+import { PostType } from "@/types";
+import api from "@/utils/api";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 const BlogFeed = () => {
+  const [lastPosts, setLastPosts] = useState<PostType[]>([]);
+
+  useEffect(() => {
+    getPosts();
+  }, []);
+
+  const getPosts = async () => {
+    try {
+      const response = await api.get("/posts");
+      const latestPost = response.data[0];
+      setLastPosts(latestPost);
+      console.log("Latest Post:", latestPost);
+
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const isLoggedIn = useSelector(getIsLoggedIn);
   return (
     <div className="flex pt-24 items-center min-h-screen flex-col gap-8 mt-5">
       <div className="max-w-[1200px] gap-4 flex flex-col md:flex-row items-center h-auto p-2 w-full ">
         <div className="flex-col justify-around items-center w-full h-full">
-          <h1 className="font-semibold text-4xl">Our Recent Blog Entries</h1>
+          <h1 className="font-semibold text-4xl"> Bienvenido a Blogtech</h1>
           <p className="text-base w-full md:w-3/4">
-            Si hay errores en la consola (por ejemplo, problemas con rutas,
-            props no definidas, o fallos en el árbol de React), corrígelos
-            primero. A menudo, los errores silenciosos pueden impedir que un
-            componente se renderice.
+            En un mundo donde la tecnología avanza a la velocidad de la luz,
+            estar al tanto de las últimas innovaciones no es una opción, es una
+            necesidad. Aquí, en nuestro blog, encontrarás un espacio dedicado a
+            explorar las tendencias más emocionantes, los gadgets más
+            innovadores y las noticias que están definiendo el futuro digital.
           </p>
         </div>
         {isLoggedIn ? (
@@ -38,12 +60,11 @@ const BlogFeed = () => {
               className="w-full h-[311px] object-cover rounded-2xl"
             />
             <h1 className="text-3xl font-medium  text-left">
-              Unveiling the Latest in Electronic Gadgets and Innovations
+              {lastPosts.title}
             </h1>
-            <p className=" text-sm font-medium w-full text-left">
-              the curve with our comprehensive guide to the latest electronic
-              gadgets and groundbreaking innovations. From cutting-edge
-              smartphones
+            <p className="text-sm font-medium w-full text-left line-clamp-3 overflow-hidden relative">
+              {lastPosts.content}
+              <span className="absolute rounded-2xl bottom-0 left-0 w-full h-6 bg-gradient-to-t from-white to-transparent"></span>
             </p>
 
             <div className="flex flex-row justify-between w-full items-end ">
@@ -56,7 +77,7 @@ const BlogFeed = () => {
                 </div>
 
                 <h2 className=" text-gray-600 ml-2 text-xl font-medium mt-2">
-                  By Cosme Fulanito
+                  {`By ${lastPosts.name}`}
                 </h2>
               </div>
             </div>
