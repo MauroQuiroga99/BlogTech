@@ -5,10 +5,11 @@ import api from "@/utils/api";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import BlogCard from "./BlogCard";
 
 const BlogFeed = () => {
-  const [lastPosts, setLastPosts] = useState<PostType[]>([]);
-
+  const [lastPosts, setLastPosts] = useState<PostType | null>(null);
+  const [postsHome, setPostsHome] = useState<PostType[]>([]);
   useEffect(() => {
     getPosts();
   }, []);
@@ -17,6 +18,7 @@ const BlogFeed = () => {
     try {
       const response = await api.get("/posts");
       const latestPost = response.data[0];
+      setPostsHome(response.data);
       setLastPosts(latestPost);
       console.log("Latest Post:", latestPost);
 
@@ -60,10 +62,10 @@ const BlogFeed = () => {
               className="w-full h-[311px] object-cover rounded-2xl"
             />
             <h1 className="text-3xl font-medium  text-left">
-              {lastPosts.title}
+              {lastPosts?.title}
             </h1>
             <p className="text-sm font-medium w-full text-left line-clamp-3 overflow-hidden relative">
-              {lastPosts.content}
+              {lastPosts?.content}
               <span className="absolute rounded-2xl bottom-0 left-0 w-full h-6 bg-gradient-to-t from-white to-transparent"></span>
             </p>
 
@@ -76,90 +78,21 @@ const BlogFeed = () => {
                   />
                 </div>
 
-                <h2 className=" text-gray-600 ml-2 text-xl font-medium mt-2">
-                  {`By ${lastPosts.name}`}
+                <h2 className=" text-gray-600 ml-2 text-xl font-medium mt-6">
+                  {`By ${lastPosts?.name}`}
                 </h2>
               </div>
             </div>
+            <div className="w-full mt-1 bg-slate-400 h-[1px] "></div>
           </div>
         </div>
 
-        <div className="flex h-auto w-full flex-col gap-8 ">
-          <div className="flex flex-row gap-4  ">
-            <img
-              src="https://yamefui.com/wp-content/uploads/2023/08/xxx-1080-%C3%97-1080-px-7.png"
-              alt=""
-              className="w-40 h-36 object-cover rounded-2xl"
-            />
-
-            <div className=" flex flex-col justify-between  ">
-              <h2 className="text-2xl font-medium ">
-                Discover the Newest Electronic Gadgets and Innovations
-              </h2>
-              <div className="flex justify-between items-center ">
-                <div className="flex flex-row justify-center items-center  ">
-                  <img
-                    src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
-                    className="w-8 h-8 object-cover rounded-full justify-start"
-                  />
-                  <h2 className=" text-gray-600 ml-2 text-base font-normal">
-                    By Cosme Fulanito
-                  </h2>
-                </div>
-              </div>
+        <div className="flex h-auto w-full flex-col gap-8 max-h-[540px] overflow-y-scroll">
+          {postsHome.map((post) => (
+            <div key={post.id}>
+              <BlogCard posts={post} />
             </div>
-          </div>
-          <div className="w-full bg-slate-400 h-[0.5px]   "></div>
-          <div className="flex flex-row gap-4 ">
-            <img
-              src="https://yamefui.com/wp-content/uploads/2023/08/xxx-1080-%C3%97-1080-px-7.png"
-              alt=""
-              className="w-40 h-36 object-cover rounded-2xl"
-            />
-
-            <div className=" flex flex-col justify-between  ">
-              <h2 className="text-2xl font-medium ">
-                Discover the Newest Electronic Gadgets and Innovations
-              </h2>
-              <div className="flex justify-between items-center ">
-                <div className="flex flex-row justify-center items-center  ">
-                  <img
-                    src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
-                    className="w-8 h-8 object-cover rounded-full justify-start"
-                  />
-                  <h2 className=" text-gray-600 ml-2 text-base font-normal">
-                    By Cosme Fulanito
-                  </h2>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="w-full bg-slate-400 h-[0.5px]   "></div>
-          <div className="flex flex-row gap-4 ">
-            <img
-              src="https://yamefui.com/wp-content/uploads/2023/08/xxx-1080-%C3%97-1080-px-7.png"
-              alt=""
-              className="w-40 h-36 object-cover rounded-2xl"
-            />
-
-            <div className=" flex flex-col justify-between  ">
-              <h2 className="text-2xl font-medium ">
-                Discover the Newest Electronic Gadgets and Innovations
-              </h2>
-              <div className="flex justify-between items-center ">
-                <div className="flex flex-row justify-center items-center  ">
-                  <img
-                    src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
-                    className="w-8 h-8 object-cover rounded-full justify-start"
-                  />
-                  <h2 className=" text-gray-600 ml-2 text-base font-normal">
-                    By Cosme Fulanito
-                  </h2>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="w-full bg-slate-400 h-[0.5px]   "></div>
+          ))}
         </div>
       </div>
     </div>

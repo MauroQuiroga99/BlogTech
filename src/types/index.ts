@@ -29,5 +29,5 @@ export type PostType = {
   content: string;
   status: string;
   id: string;
-  user: UserType;
+  name: string;
 };
