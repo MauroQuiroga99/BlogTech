@@ -18,7 +18,8 @@ const BlogFeed = () => {
     try {
       const response = await api.get("/posts");
       const latestPost = response.data[0];
-      setPostsHome(response.data);
+      const otherPosts = response.data.slice(1);
+      setPostsHome(otherPosts);
       setLastPosts(latestPost);
       console.log("Latest Post:", latestPost);
 
