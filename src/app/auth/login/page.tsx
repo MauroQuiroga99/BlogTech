@@ -37,9 +37,6 @@ const Login = () => {
       });
 
       if (response.data.user) {
-        localStorage.setItem("user", JSON.stringify(response.data.user));
-        localStorage.setItem("token", response.data.token);
-
         dispatch(
           setAuth({
             user: response.data.user,

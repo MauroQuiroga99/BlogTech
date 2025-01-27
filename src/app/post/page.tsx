@@ -1,6 +1,6 @@
 "use client";
 import Error from "@/components/validation/Error";
-import { getToken } from "@/store/selector/authSelector";
+import { getIsLoggedIn } from "@/store/selector/authSelector";
 import { setSnackBar } from "@/store/slices/snackBarSlice";
 import { PostForm } from "@/types";
 import api from "@/utils/api";
@@ -15,14 +15,14 @@ const page = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<PostForm>();
-  const token = useSelector(getToken);
+  const isLoggedIn = useSelector(getIsLoggedIn);
   const dispatch = useDispatch();
   const router = useRouter();
 
   const createPost = async (data: PostForm) => {
     console.log(data);
 
-    if (!token) {
+    if (!isLoggedIn) {
       dispatch(
         setSnackBar({
           message: "You need to be logged in to create a post",
@@ -32,6 +32,8 @@ const page = () => {
       router.push("/auth/login");
       return;
     }
+
+    const token = localStorage.getItem("token");
 
     try {
       const response = await api.post("/posts", data, {
