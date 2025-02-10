@@ -38,15 +38,11 @@ const AuthProvider = ({
             user: response.data.user,
           })
         );
-        dispatch(
-          setSnackBar({ message: "Logged in successfully!", isOpen: true })
-        );
       }
     } catch (error) {
       const errorMessage =
         // @ts-expect-error fix for now
         error.response?.data?.message || "An unexpected error occurred";
-      dispatch(setSnackBar({ message: errorMessage, isOpen: true }));
     }
   };
 
