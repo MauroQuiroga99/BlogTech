@@ -1,5 +1,6 @@
 "use client";
 import { PostType } from "@/types";
+import Link from "next/link";
 import React from "react";
 
 type BlogCardProps = {
@@ -8,7 +9,7 @@ type BlogCardProps = {
 
 const BlogCard = ({ posts }: BlogCardProps) => {
   return (
-    <div>
+    <Link href={`/post/${posts.id}`}>
       <div className="flex flex-row gap-4 ">
         <img
           src="https://yamefui.com/wp-content/uploads/2023/08/xxx-1080-%C3%97-1080-px-7.png"
@@ -30,7 +31,7 @@ const BlogCard = ({ posts }: BlogCardProps) => {
         </div>
       </div>
       <div className="w-full mt-1 bg-slate-400 h-[0.5px]"></div>
-    </div>
+    </Link>
   );
 };
 

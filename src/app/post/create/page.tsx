@@ -9,7 +9,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 
-const page = () => {
+const createPost = () => {
   const {
     register,
     handleSubmit,
@@ -140,4 +140,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default createPost;
